@@ -364,12 +364,6 @@ async function sendGroupSMS(
         const signature = hash.toString(CryptoJS.enc.Base64)
 
         console.log('2', groupId)
-        const attendanceURL = await shortenURL(
-            `https://erunjrun.com/check/${groupId}`
-        )
-        const evaluationURL = await shortenURL(
-            `https://erunjrun.com/evaluation/${groupId}`
-        )
         let content
 
         switch (category) {
@@ -379,7 +373,7 @@ async function sendGroupSMS(
             case 'start':
                 switch (role) {
                     case 'host':
-                        content = `${nickname}님 30분 뒤 [${groupTitle}]러닝이 시작합니다. 출석체크를 해주세요. \n 링크: ${attendanceURL}`
+                        content = `${nickname}님 30분 뒤 [${groupTitle}]러닝이 시작합니다. 출석체크를 해주세요. \n 링크: https://www.erunjrun.com/check/${groupId}`
                         break
                     case 'attendance':
                         content = `${nickname}님 30분 뒤 [${groupTitle}]러닝이 시작합니다.`
@@ -392,7 +386,7 @@ async function sendGroupSMS(
                         content = `${nickname}님 [${groupTitle}] 그룹러닝은 어떠셨나요?`
                         break
                     case 'attendance':
-                        content = `${nickname}님 [${groupTitle}]러닝은 어떠셨나요? 크루장평가를 해주세요. \n 링크: ${evaluationURL}`
+                        content = `${nickname}님 [${groupTitle}]러닝은 어떠셨나요? 크루장평가를 해주세요. \n 링크: https://www.erunjrun.com/evaluation/${groupId}`
                         break
                 }
             default:
@@ -440,29 +434,6 @@ async function sendGroupSMS(
     }
 }
 
-function timeForToday(createdAt) {
-    const today = new Date()
-    const timeValue = new Date(createdAt)
-
-    const betweenTime = Math.floor(
-        (today.getTime() - timeValue.getTime()) / 1000 / 60
-    ) // 분
-    if (betweenTime < 1) return '방금 전' // 1분 미만이면 방금 전
-    if (betweenTime < 60) return `${betweenTime}분 전` // 60분 미만이면 n분 전
-
-    const betweenTimeHour = Math.floor(betweenTime / 60) // 시
-    if (betweenTimeHour < 24) return `${betweenTimeHour}시간 전` // 24시간 미만이면 n시간 전
-
-    const betweenTimeDay = Math.floor(betweenTime / 60 / 24) // 일
-    if (betweenTimeDay < 7) return `${betweenTimeDay}일 전` // 7일 미만이면 n일 전
-    if (betweenTimeDay < 365)
-        return `${timeValue.getMonth() + 1}월 ${timeValue.getDate()}일` // 365일 미만이면 년을 제외하고 월 일만
-
-    return `${timeValue.getFullYear()}년 ${
-        timeValue.getMonth() + 1
-    }월 ${timeValue.getDate()}일` // 365일 이상이면 년 월 일
-}
-
 // 글자의 바이트 계산함수
 function getByteB(str) {
     var byte = 0
@@ -473,30 +444,3 @@ function getByteB(str) {
     return byte
 }
 
-// async function deleteOutdateAlarm(userId) {
-//     const alarms = await Alarms.findAll({
-//         where: { userId },
-//         order: [['createdAt', 'desc']],
-//     })
-//     try {
-//         if (alarms.length > 20) {
-//             for (let i = 20; i < alarms.length; i++) {
-//                 await Alarms.destroy({
-//                     where: { alarmId: alarms[i].dataValues.alarmId },
-//                 })
-//             }
-//         }
-//     } catch (error) {
-//         console.log(error)
-//         return error
-//     }
-//     return
-// }
-
-async function shortenURL(url) {
-    let shorturl = await TinyURL.shorten(url).then((value) => {
-        return value
-    })
-    const result = shorturl
-    return result
-}
