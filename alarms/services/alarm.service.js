@@ -276,6 +276,7 @@ module.exports = {
                             })
                                 .then((value) => {
                                     // deleteOutdateAlarm(value.dataValues.userId)
+                                    console.log(value)
                                     if (
                                         user.phone !== null &&
                                         user.agreeSMS === true
@@ -363,7 +364,15 @@ async function sendGroupSMS(
         const hash = hmac.finalize()
         const signature = hash.toString(CryptoJS.enc.Base64)
 
-        console.log('2', groupId)
+        console.log(
+            alarmId,
+            phone,
+            category,
+            role,
+            groupTitle,
+            groupId,
+            nickname,
+            starttime)
         let content
 
         switch (category) {
@@ -383,15 +392,17 @@ async function sendGroupSMS(
             case 'end':
                 switch (role) {
                     case 'host':
-                        content = `${nickname}님 [${groupTitle}] 그룹러닝은 어떠셨나요?`
+                        content = `${nickname}님 [${groupTitle}] 러닝은 어떠셨나요? 당신은 멋진 크루장입니다!`
                         break
                     case 'attendance':
                         content = `${nickname}님 [${groupTitle}]러닝은 어떠셨나요? 크루장평가를 해주세요. \n 링크: https://www.erunjrun.com/evaluation/${groupId}`
                         break
                 }
+                break
             default:
                 throw new Error('문자 전송 대상값이 올바르지 않습니다')
         }
+        console.log(content)
         let type
         if (getByteB(content) >= 80) {
             type = 'LMS'
