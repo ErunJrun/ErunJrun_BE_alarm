@@ -5,7 +5,7 @@ module.exports = {
     // 매일 8시마다 createDdayAlarm
     createDdayAlarm: (req, res, next) => {
         try {
-            schedule.scheduleJob('0 10 22 * * *', alarmService.createDdayAlarm)
+            schedule.scheduleJob('0 26 22 * * *', alarmService.createDdayAlarm)
         } catch (error) {
             return next({
                 message: '문자전송 실패',
