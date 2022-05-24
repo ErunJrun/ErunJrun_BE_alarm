@@ -11,6 +11,7 @@ const moment = require('moment')
 const CryptoJS = require('crypto-js')
 const axios = require('axios')
 const TinyURL = require('tinyurl')
+const crypto = require('crypto')
 
 module.exports = {
     // 유저에게 생성되어있는 알람을 최신순으로 조회
@@ -336,10 +337,13 @@ async function sendGroupSMS(
     try {
         const key = process.env.CRYPTO_KEY
         const decode = crypto.createDecipher('des', key)
-        const decodeResult = decode.update(phone, 'base64', 'utf8') + decode.final('utf8')
+        const decodeResult =
+            decode.update(phone, 'base64', 'utf8') + decode.final('utf8')
         const user_phone_number = decodeResult.split('-').join('') // SMS를 수신할 전화번호
         const date = Date.now().toString() // 날짜 string
 
+
+        console.log(decodeResult)
         // 환경 변수
         const sens_service_id = process.env.NCP_SENS_ID
         const sens_access_key = process.env.NCP_SENS_ACCESS
