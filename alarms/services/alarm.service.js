@@ -334,7 +334,10 @@ async function sendGroupSMS(
     starttime
 ) {
     try {
-        const user_phone_number = phone.split('-').join('') // SMS를 수신할 전화번호
+        const key = process.env.CRYPTO_KEY
+        const decode = crypto.createDecipher('des', key)
+        const decodeResult = decode.update(phone, 'base64', 'utf8') + decode.final('utf8')
+        const user_phone_number = decodeResult.split('-').join('') // SMS를 수신할 전화번호
         const date = Date.now().toString() // 날짜 string
 
         // 환경 변수
