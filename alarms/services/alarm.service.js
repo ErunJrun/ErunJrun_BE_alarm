@@ -15,6 +15,7 @@ const TinyURL = require('tinyurl')
 module.exports = {
     // 유저에게 생성되어있는 알람을 최신순으로 조회
     createDdayAlarm: async (req, res) => {
+        console.log('dday알람 시작합니다')
         const starttime = new Date(moment()).getTime()
         const nowDate = moment().format('YYYY-MM-DD')
         const data = await Groups.findAll({
