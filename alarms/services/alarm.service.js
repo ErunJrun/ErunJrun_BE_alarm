@@ -106,8 +106,7 @@ module.exports = {
     },
     // 1분마다 현재시간 기준 30분 안에 시작할 그룹러닝에 대하여 시작 알람 생성
     createStartAlarm: async (req, res) => {
-        const now = new Date()
-        console.log(now)
+        console.log(moment())
         const starttime = new Date(moment()).getTime()
         const after30MinuteTime = moment().add('30', 'm').format('HH:mm:ss')
         const after30MinuteDate = moment().add('30', 'm').format('YYYY-MM-DD')
