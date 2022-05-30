@@ -215,13 +215,13 @@ module.exports = {
     // 5분마다 현재시간 기준 30분 전에 끝난 그룹러닝에 대하여 종료 알람 생성
     createEndAlarm: async (req, res) => {
         const starttime = new Date(moment()).getTime()
-        const before30MinuteTime = moment().add('-30', 'm').format('HH:mm:ss')
-        const before30MinuteDate = moment().add('-30', 'm').format('YYYY-MM-DD')
+        const before1HourTime = moment().add('-1', 'h').format('HH:mm:ss')
+        const before1HoureDate = moment().add('-1', 'h').format('YYYY-MM-DD')
         await Groups.findAll({
             where: {
                 [Op.and]: [
-                    { date: before30MinuteDate },
-                    { finishTime: before30MinuteTime },
+                    { date: before1HoureDate },
+                    { standbyTime: before1HourTime}
                 ],
             },
             attributes: ['userId', 'title', 'groupId'],
@@ -341,7 +341,6 @@ async function sendGroupSMS(
             decode.update(phone, 'base64', 'utf8') + decode.final('utf8')
         const user_phone_number = decodeResult.split('-').join('') // SMS를 수신할 전화번호
         const date = Date.now().toString() // 날짜 string
-
 
         console.log(decodeResult)
         // 환경 변수
