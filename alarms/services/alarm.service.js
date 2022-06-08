@@ -12,6 +12,7 @@ const CryptoJS = require('crypto-js')
 const axios = require('axios')
 const TinyURL = require('tinyurl')
 const crypto = require('crypto')
+const { Logger, stream } = require('../../middlewares/loggers/logger')
 
 module.exports = {
     // 유저에게 생성되어있는 알람을 최신순으로 조회
@@ -221,7 +222,7 @@ module.exports = {
             where: {
                 [Op.and]: [
                     { date: before1HoureDate },
-                    { standbyTime: before1HourTime}
+                    { standbyTime: before1HourTime },
                 ],
             },
             attributes: ['userId', 'title', 'groupId'],
@@ -299,9 +300,8 @@ module.exports = {
                                         })
                                         return
                                     } else {
-                                        console.log(
-                                            '수신 동의 거부 유저입니다.'
-                                        )
+                                        const result = `수신동의거부: ${user.nickname} / ${value.dataValues.groupTitle} / ${role} / ${category}`
+                                        Logger.error(`${result}`)
                                         return
                                     }
                                 })
@@ -446,11 +446,14 @@ async function sendGroupSMS(
         }
         await Alarms.update({ sendPhone }, { where: { alarmId } })
         const endtime = new Date(moment()).getTime()
-        console.log('문자전송완료', (endtime - starttime) / 1000)
+        const result = `문자전송완료: ${nickname} / ${groupTitle} / ${role} / ${category} / ${sendPhone} / 전송소요시간: ${
+            (endtime - starttime) / 1000
+        }`
+        Logger.info(`${result}`)
         return
     } catch (error) {
-        console.log(error)
-        throw new Error('문자 전송 실패')
+        const result = `문자전송실패: ${nickname} / ${groupTitle} / ${role} / ${category} / ${error}`
+        throw new Error(result)
     }
 }
 

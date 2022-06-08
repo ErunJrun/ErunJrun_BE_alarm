@@ -19,7 +19,6 @@ module.exports = {
             schedule.scheduleJob(' */1 * * * *', alarmService.createStartAlarm)
         } catch (error) {
             return next({
-                message: '문자전송 실패',
                 stack: error,
             })
         }

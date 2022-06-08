@@ -57,7 +57,7 @@ const transports = [
     new WinstonDaily({
         level: 'error',
         datePattern: 'YYYY-MM-DD',
-        dirname: path.join(logDir, '/error'),
+        dirname: path.join(logDir, '/fail'),
         filename: '%DATE%.error.log',
         maxFiles: 30,
         zippedArchive: true,
@@ -66,7 +66,7 @@ const transports = [
     new WinstonDaily({
         level: 'debug',
         datePattern: 'YYYY-MM-DD',
-        dirname: path.join(logDir, '/all'),
+        dirname: path.join(logDir, '/success'),
         filename: '%DATE%.all.log',
         maxFiles: 7,
         zippedArchive: true,
