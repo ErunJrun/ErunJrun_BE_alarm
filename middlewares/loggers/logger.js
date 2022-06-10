@@ -1,7 +1,7 @@
 const winston = require('winston')
 const WinstonDaily = require('winston-daily-rotate-file')
 const path = require('path')
-
+require('dotenv').config()
 const { combine, timestamp, printf, colorize } = winston.format
 
 const logDir = process.env.LOGDIR || 'logs'
