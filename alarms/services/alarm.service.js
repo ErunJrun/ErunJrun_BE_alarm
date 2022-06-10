@@ -92,7 +92,8 @@ module.exports = {
                                     })
                                     return
                                 } else {
-                                    console.log('수신 동의 거부 유저입니다.')
+                                    const result = `수신동의거부: ${user.nickname} / ${value.dataValues.groupTitle} / ${role} / ${category}`
+                                    Logger.error(`${result}`)
                                     return
                                 }
                             })
