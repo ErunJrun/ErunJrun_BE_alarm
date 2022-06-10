@@ -418,7 +418,7 @@ async function sendGroupSMS(
             type = 'SMS'
         }
         // sens 서버로 요청 전송
-        const smsRes = await axios({
+        await axios({
             method: method,
             url: url,
             headers: {
@@ -436,8 +436,8 @@ async function sendGroupSMS(
             },
 
             // `${user_phone_number}`
-        })
-        let sendPhone
+        }).then(async (value) =>{
+            let sendPhone
         if (type === 'LMS') {
             sendPhone = 2
         } else {
@@ -448,8 +448,12 @@ async function sendGroupSMS(
         const result = `문자전송완료: ${nickname} / ${groupTitle} / ${role} / ${category} / ${sendPhone} / 전송소요시간: ${
             (endtime - starttime) / 1000
         }`
+        console.log(result)
         Logger.info(`${result}`)
         return
+        })
+        
+        
     } catch (error) {
         const result = `문자전송실패: ${nickname} / ${groupTitle} / ${role} / ${category} / ${error}`
         throw new Error(result)
