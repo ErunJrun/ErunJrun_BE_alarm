@@ -43,7 +43,7 @@ const logFormat = combine(
 // 콘솔에 찍힐 때는 색깔을 구변해서 로깅해주자.
 const consoleOpts = {
     handleExceptions: true,
-    level: process.env.NODE_ENV === 'production' ? 'error' : 'debug',
+    // level: process.env.NODE_ENV === 'production' ? 'error' : 'debug',
     format: combine(
         colorize({ all: true }),
         timestamp({ format: 'YYYY-MM-DD HH:mm:ss:ms' })
