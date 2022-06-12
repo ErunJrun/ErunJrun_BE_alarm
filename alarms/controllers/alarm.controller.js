@@ -13,6 +13,7 @@ module.exports = {
             })
         }
     },
+    
     // 매 1분마다 createEndAlarm(실제시간 기준 30분, 00분)
     createStartAlarm: (req, res, next) => {
         try {
@@ -23,6 +24,7 @@ module.exports = {
             })
         }
     },
+
     // 매 1분 마다 createEndAlarm 실행
     createEndAlarm: (req, res, next) => {
         try {
